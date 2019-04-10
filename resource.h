@@ -1,13 +1,13 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
-
+#include <iostream>
 #include <unordered_set>
 
 using namespace  std;
 
 namespace {
     long long unsigned p_id_t;
-    static const decltype (p_id_t) resource_not_exsists = 0;
+    static const decltype (p_id_t) resource_not_exsists = 10;
 };
 
 typedef decltype (p_id_t) ResourceKey;
@@ -15,11 +15,6 @@ typedef decltype (p_id_t) ResourceKey;
 struct Resource
 {
     Resource();
-
-    // hash for unordered set
-    inline size_t operator()() const {
-        return hash<decltype (p_id)>{}(p_id);
-    }
 
     bool operator==(Resource const& rhs) {
         return p_id == rhs.getId();
@@ -40,10 +35,9 @@ struct Resource
     long long unsigned int p_id;
 
     Resource(ResourceKey rk) {
+        cout << __FUNCTION__ << ":" << rk << endl;
         p_id = rk;
     }
 };
-
-static const Resource ResourceNotExsists{resource_not_exsists};
 
 #endif // RESOURCE_H

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-set<Resource> data;
+static set<Resource> data;
 
 App::App()
 {
@@ -24,10 +24,15 @@ void App::deleteResource(Resource r)
 
 Resource App::getResource(ResourceKey k)
 {
-    find_if(begin(data), end(data), [&k](auto const& j){
+    auto it = find_if(begin(data), end(data), [&k](auto const& j){
+        cout << __FUNCTION__ << ":" << j.getId() << " == " << k << endl;
         return j.getId() == k;
     });
-    Resource r{};
-    r.p_id = 0;
-    return r;
+
+    if (it != data.end()) {
+        cout << __FUNCTION__ << "found key" << endl;
+        return *it;
+    } else {
+        return Resource{resource_not_exsists};
+    }
 }
