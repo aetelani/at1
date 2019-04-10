@@ -6,6 +6,8 @@ CppApplication {
         "app.cpp",
         "app.h",
         "main.cpp",
+        "resource.cpp",
+        "resource.h",
     ]
     cpp.cxxLanguageVersion: "c++14"
 
