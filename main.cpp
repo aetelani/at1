@@ -17,9 +17,12 @@ int main()
     t2.join();
     t3.join();
     ResourceKey k1 = 42;
-    Resource res{k1};
+    ResourceKey k2 = 102;
+    Resource res{k1}; // it's private ctor for testing
     cout << "AT says:" << endl;
     Resource res1 = app.getResource(k1);
-    cout << "result is :" << res1.p_id << endl;
+    Resource res2 = app.getResource(k2);
+    cout << "result1 is :" << res1.p_id << endl;
+    cout << "result2 is :" << res2.p_id << endl;
     return 0;
 }
