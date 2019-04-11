@@ -10,7 +10,7 @@ CppApplication {
         "resource.h",
     ]
     cpp.cxxLanguageVersion: "c++14"
-
+    cpp.dynamicLibraries: "pthread"
     Group {     // Properties for the produced executable
         fileTagsFilter: "application"
         qbs.install: true

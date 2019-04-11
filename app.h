@@ -6,7 +6,7 @@ class App
 {
 public:
     App();
-    void addResource(Resource r);
+    static void addResource(Resource r);
     void deleteResource(Resource r);
     Resource getResource(ResourceKey k);
 };

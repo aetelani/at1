@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -9,9 +10,12 @@ int main()
     cout << "Hello AT1!" << endl;
     Resource r1{}, r2{}, r3{};
     App app;
-    app.addResource(r1);
-    app.addResource(r2);
-    app.addResource(r3);
+    thread t1(app.addResource, r1);
+    thread t2(app.addResource, r2);
+    thread t3(app.addResource, r3);
+    t1.join();
+    t2.join();
+    t3.join();
     ResourceKey k1 = 42;
     Resource res{k1};
     cout << "AT says:" << endl;
