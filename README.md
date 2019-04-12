@@ -2,7 +2,7 @@
 Data Analyst Library
 
 # libs
-## opencv on ubuntu14
+## opencv on ubuntu 18.4
 ```
 sudo apt-get install build-essential
 sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
