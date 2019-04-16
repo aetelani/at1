@@ -1,4 +1,5 @@
 #include "app.h"
+#include "adaptors/pyadaptor.h"
 
 #include <iostream>
 #include <thread>
@@ -24,5 +25,8 @@ int main()
     Resource res2 = app.getResource(k2);
     cout << "result1 is :" << res1.p_id << endl;
     cout << "result2 is :" << res2.p_id << endl;
+
+    PyAdaptor pa;
+
     return 0;
 }
