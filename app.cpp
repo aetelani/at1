@@ -10,9 +10,9 @@ using namespace std;
 
 #define LOCK(MUTEX) lock_guard<mutex> lock(MUTEX);
 
-namespace  {
+namespace P {
     mutex dataMutex;
-    auto data = make_shared<set<Resource>>();
+    static auto data = make_shared<set<Resource>>();
 }
 
 App::App()
@@ -21,27 +21,27 @@ App::App()
 
 void App::addResource(Resource r)
 {
-    LOCK(dataMutex)
+    LOCK(P::dataMutex)
     cout << "ThreadId:" << this_thread::get_id() << endl;
-    data->insert(r);
+    P::data->insert(r);
 }
 
 void App::deleteResource(Resource r)
 {
-    LOCK(dataMutex)
-    auto it = data->find(r);
-    data->erase(it);
+    LOCK(P::dataMutex)
+    auto it = P::data->find(r);
+    P::data->erase(it);
 }
 
 Resource App::getResource(ResourceKey k)
 {
-    LOCK(dataMutex)
-    auto it = find_if(begin(*data), end(*data), [&k](auto const& j){
+    LOCK(P::dataMutex)
+    auto it = find_if(begin(*P::data), end(*P::data), [&k](auto const& j){
         cout << __FUNCTION__ << ":" << j.getId() << " == " << k << endl;
         return j.getId() == k;
     });
 
-    if (it != data->end()) {
+    if (it != P::data->end()) {
         cout << __FUNCTION__ << "found key" << endl;
         return *it;
     } else {

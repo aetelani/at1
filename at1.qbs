@@ -14,7 +14,7 @@ CppApplication {
     ]
 
     consoleApplication: true
-    cpp.cxxLanguageVersion: "c++14"
+    cpp.cxxLanguageVersion: "c++17"
     cpp.dynamicLibraries: "pthread"
 
     cpp.includePaths: [
