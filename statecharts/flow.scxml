@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="flow" qt:editorversion="4.8.2" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" initial="Running">
-    <qt:editorinfo initialGeometry="384.27;66.08;-20;-20;40;40"/>
-    <state id="Running">
-        <qt:editorinfo geometry="384.27;192.14;-60;-50;120;100" scenegeometry="384.27;192.14;324.27;142.14;120;100"/>
-        <transition type="external" event="Exit" target="Final_3"/>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="flow" qt:editorversion="4.8.2" initial="Init">
+    <qt:editorinfo initialGeometry="0;0;-20;-20;40;40"/>
+    <state id="Init">
+        <qt:editorinfo scenegeometry="238.08;107.83;178.08;57.83;120;100" geometry="238.08;107.83;-60;-50;120;100"/>
+        <transition type="external" event="Initiliazed" target="Running"/>
     </state>
-    <final id="Final_3">
-        <qt:editorinfo geometry="384.27;324.28;-20;-20;40;40" scenegeometry="384.27;324.28;364.27;304.28;40;40"/>
-    </final>
+    <state id="Running">
+        <qt:editorinfo scenegeometry="238.08;302.14;178.08;252.14;120;100" geometry="238.08;302.14;-60;-50;120;100"/>
+        <transition type="external" event="Exiting" target="Finalize"/>
+    </state>
+    <state id="Finalize">
+        <qt:editorinfo scenegeometry="42.70;493.24;-17.30;443.24;120;100" geometry="42.70;493.24;-60;-50;120;100"/>
+    </state>
 </scxml>
