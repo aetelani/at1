@@ -26,7 +26,7 @@ struct sc::user_model
 
 
 template<> void sc::state_actions<sc::state_Init>::enter(sc::data_model & m) {
-    cout << "SC Init:" << __FUNCTION__ << endl;
+    cout << "SC:" << __FUNCTION__ << endl;
 }
 
 template<> void sc::state_actions<sc::state_Running>::enter(sc::data_model & m) {
@@ -50,6 +50,14 @@ template<> bool sc::transition_actions<&sc::state::event_Exiting, sc::state_Runn
     return true;
 }
 
+
+template<> bool sc::transition_actions<&sc::state::unconditional, sc::state_Running>::condition(sc::data_model &m)
+{
+    m.user->timer++;
+    cout << "SC Transition unconditial ->Running->Finalize:" << __FUNCTION__ << m.user->timer << endl;
+    return m.user->timer < 5;
+}
+
 App::App()
 { 
     sc sc0(&userModel);
@@ -57,10 +65,11 @@ App::App()
     sc::event
             e1{&sc::state::event_Initiliazed},
             e2{&sc::state::event_Exiting};
-    //while(true) {
-    sc0.dispatch(e1);
-    sc0.dispatch(e2);
-    //}
+        sc0.dispatch(e1);
+        sc0.dispatch(e2);
+            do {
+        sc0.dispatch();
+    } while(!sc0.model.In<sc::state_Finalize>());
 }
 
 void App::addResource(Resource r)

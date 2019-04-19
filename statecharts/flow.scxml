@@ -6,8 +6,11 @@
         <transition type="external" event="Initiliazed" target="Running"/>
     </state>
     <state id="Running">
-        <qt:editorinfo scenegeometry="238.08;302.14;178.08;252.14;120;100" geometry="238.08;302.14;-60;-50;120;100"/>
+        <qt:editorinfo scenegeometry="238.08;302.14;27;201.93;271.08;170.21" geometry="238.08;302.14;-211.08;-100.21;271.08;170.21"/>
         <transition type="external" event="Exiting" target="Finalize"/>
+        <transition type="internal">
+            <qt:editorinfo endTargetFactors="26.33;43.84"/>
+        </transition>
     </state>
     <state id="Finalize">
         <qt:editorinfo scenegeometry="42.70;493.24;-17.30;443.24;120;100" geometry="42.70;493.24;-60;-50;120;100"/>
