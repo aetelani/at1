@@ -3,9 +3,8 @@
 #include <iostream>
 #include <unordered_set>
 
-using namespace  std;
-
 namespace {
+    using namespace std;
     long long unsigned p_id_t;
     static const decltype (p_id_t) resource_not_exsists = 10;
 };
