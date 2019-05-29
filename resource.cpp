@@ -1,24 +1,39 @@
 #include "resource.h"
-#include <iostream>
 
-using namespace std;
+namespace p {
+    #include <iostream>
+    using std::cout;
+    static ResourceKey id = 100;
+    ResourceKey genId() { return ++id; }
+    void setId(ResourceKey k) { id = k; }
+}
 
-static ResourceKey pp_id = 100;
-ResourceKey pp_genId() {return ++pp_id; }
+using namespace p;
 
 Resource::Resource()
 {
     //cout << __FUNCTION__ << ":" << p_id << endl;
-    p_id = pp_genId();
+    ResourceKey t = genId();
+    setId(t);
 }
 
 Resource::Resource(const Resource && r)
 {
-    pp_id = r.getId();
+    ResourceKey t = r.getId();
+    setId(t);
 }
 
 unsigned long long Resource::getId() const
 {
-    //cout << __FUNCTION__ << ":" << p_id << endl;
-    return p_id;
+    cout << __FUNCTION__ << ":" << p_id << endl;
+    return id;
+}
+
+Resource::Resource(ResourceKey rk) {
+    cout << __FUNCTION__ << ":" << rk << endl;
+    setId(rk);
+}
+
+namespace test {
+
 }

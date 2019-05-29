@@ -17,16 +17,16 @@ struct Resource
     Resource();
 
     bool operator==(Resource const& rhs) {
-        return p_id == rhs.getId();
+        return getId() == rhs.getId();
     }
 
     bool operator==(ResourceKey const& rhs) {
-        return p_id == rhs;
+        return getId() == rhs;
     }
 
     // for set
     bool operator <(Resource const& b) const {
-        return p_id < b.getId();
+        return getId() < b.getId();
     }
 
     ResourceKey getId() const;
@@ -38,11 +38,7 @@ struct Resource
     Resource(Resource const &) = default;
     //private:
 
-
-    Resource(ResourceKey rk) {
-        cout << __FUNCTION__ << ":" << rk << endl;
-        p_id = rk;
-    }
+    Resource(ResourceKey rk);
 };
 
 #endif // RESOURCE_H
