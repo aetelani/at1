@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="flow" qt:editorversion="4.8.2" initial="Init">
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="flow" qt:editorversion="4.8.2" initial="Running">
     <qt:editorinfo initialGeometry="0;0;-20;-20;40;40"/>
-    <state id="Init">
-        <qt:editorinfo scenegeometry="238.08;107.83;178.08;57.83;120;100" geometry="238.08;107.83;-60;-50;120;100"/>
-        <transition type="external" event="Initiliazed" target="Running"/>
-    </state>
     <state id="Running">
-        <qt:editorinfo scenegeometry="238.08;302.14;27;201.93;271.08;170.21" geometry="238.08;302.14;-211.08;-100.21;271.08;170.21"/>
-        <transition type="external" event="Exiting" target="Finalize"/>
-        <transition type="internal">
+        <qt:editorinfo scenegeometry="161.08;145.14;-0.92;90.95;214.73;210.19" geometry="161.08;145.14;-162;-54.19;214.73;210.19"/>
+        <transition type="internal" event="addResource">
             <qt:editorinfo endTargetFactors="26.33;43.84"/>
         </transition>
+        <transition type="internal" event="deleteResource"/>
+        <transition type="internal" event="findResource"/>
+        <transition type="external" event="exit" target="Stopped"/>
     </state>
-    <state id="Finalize">
-        <qt:editorinfo scenegeometry="42.70;493.24;-17.30;443.24;120;100" geometry="42.70;493.24;-60;-50;120;100"/>
+    <state id="Stopped">
+        <qt:editorinfo scenegeometry="54;481;-6;431;120;100" geometry="54;481;-60;-50;120;100"/>
     </state>
 </scxml>

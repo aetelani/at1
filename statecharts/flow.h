@@ -20,8 +20,10 @@ class sc_flow
 	{
 		public:
 		virtual ~state(){}
-		virtual state* event_Exiting(sc_flow&) { return 0; }
-		virtual state* event_Initiliazed(sc_flow&) { return 0; }
+		virtual state* event_addResource(sc_flow&) { return 0; }
+		virtual state* event_deleteResource(sc_flow&) { return 0; }
+		virtual state* event_exit(sc_flow&) { return 0; }
+		virtual state* event_findResource(sc_flow&) { return 0; }
 		virtual state* unconditional(sc_flow&) { return 0; }
 		virtual state* initial(sc_flow&) { return 0; }
 
@@ -134,21 +136,18 @@ class sc_flow
 
 	struct scxml : public composite<scxml, state>
 	{
-		state* initial(sc_flow&sc) { return transition<&state::initial, scxml, state_Init, internal>()(this, sc); }
-	};
-
-	struct state_Init : public composite<state_Init, scxml>
-	{
-		state* event_Initiliazed(sc_flow &sc) { return transition<&state::event_Initiliazed, state_Init, state_Running>()(this, sc); }
+		state* initial(sc_flow&sc) { return transition<&state::initial, scxml, state_Running, internal>()(this, sc); }
 	};
 
 	struct state_Running : public composite<state_Running, scxml>
 	{
-		state* event_Exiting(sc_flow &sc) { return transition<&state::event_Exiting, state_Running, state_Finalize>()(this, sc); }
-		state* unconditional(sc_flow &sc) { return transition<&state::unconditional, state_Running>()(this, sc); }
+		state* event_addResource(sc_flow &sc) { return transition<&state::event_addResource, state_Running>()(this, sc); }
+		state* event_deleteResource(sc_flow &sc) { return transition<&state::event_deleteResource, state_Running>()(this, sc); }
+		state* event_exit(sc_flow &sc) { return transition<&state::event_exit, state_Running, state_Stopped>()(this, sc); }
+		state* event_findResource(sc_flow &sc) { return transition<&state::event_findResource, state_Running>()(this, sc); }
 	};
 
-	struct state_Finalize : public composite<state_Finalize, scxml>
+	struct state_Stopped : public composite<state_Stopped, scxml>
 	{
 	};
 

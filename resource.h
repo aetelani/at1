@@ -7,6 +7,7 @@ namespace {
     using namespace std;
     long long unsigned p_id_t;
     static const decltype (p_id_t) resource_not_exsists = 10;
+    long long unsigned int p_id;
 };
 
 typedef decltype (p_id_t) ResourceKey;
@@ -30,8 +31,13 @@ struct Resource
 
     ResourceKey getId() const;
 
+    // Resource(Resource const &) = delete;
+
+    Resource(Resource const &&);
+
+    Resource(Resource const &) = default;
     //private:
-    long long unsigned int p_id;
+
 
     Resource(ResourceKey rk) {
         cout << __FUNCTION__ << ":" << rk << endl;

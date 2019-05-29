@@ -12,6 +12,11 @@ Resource::Resource()
     p_id = pp_genId();
 }
 
+Resource::Resource(const Resource && r)
+{
+    pp_id = r.getId();
+}
+
 unsigned long long Resource::getId() const
 {
     //cout << __FUNCTION__ << ":" << p_id << endl;

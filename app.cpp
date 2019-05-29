@@ -11,38 +11,21 @@
 #define LOCK(MUTEX) lock_guard<mutex> lock(MUTEX);
 
 namespace  {
-    using  sc = sc_flow;
+    using sc = class sc_flow;
 }
-
 struct sc::user_model {
     int counter;
+    Resource resource;
 };
 
-template<> void sc::state_actions<sc::state_Init>::enter(sc::data_model & m) {
-    cout << "SC:" << __FUNCTION__ << endl;
-}
-
 template<> void sc::state_actions<sc::state_Running>::enter(sc::data_model & m) {
-    cout << "SC Running:" << __FUNCTION__ << endl;
+    cout << "SC::Running::" << __FUNCTION__ << endl;
 }
 
 
-template<> void sc::state_actions<sc::state_Finalize>::enter(sc::data_model & m) {
-    cout << "SC Finalize:" << __FUNCTION__ << endl;
+template<> void sc::state_actions<sc::state_Stopped>::enter(sc::data_model & m) {
+    cout << "SC::Stopped:::" << __FUNCTION__ << endl;
 }
-
-template<> bool sc::transition_actions<&sc::state::event_Initiliazed, sc::state_Init, sc::state_Running>::condition(sc::data_model &m)
-{
-    cout << "SC Transition Init->Running:" << __FUNCTION__ << endl;
-    return true;
-}
-
-template<> bool sc::transition_actions<&sc::state::event_Exiting, sc::state_Running, sc::state_Finalize>::condition(sc::data_model &m)
-{
-    cout << "SC Transition Running->Finalize:" << __FUNCTION__ << endl;
-    return true;
-}
-
 
 template<> bool sc::transition_actions<&sc::state::unconditional, sc::state_Running>::condition(sc::data_model &m)
 {
@@ -52,34 +35,35 @@ template<> bool sc::transition_actions<&sc::state::unconditional, sc::state_Runn
 }
 
 namespace p {
-    inline namespace sc {
+    namespace {
         ::sc::user_model userModel;
+        mutex dataMutex;
+        auto data = make_shared<set<Resource>>();
     };
-    mutex dataMutex;
-    auto data = make_shared<set<Resource>>();
+    sc sc0(&p::userModel);
 }
 
 App::App()
 { 
-    sc sc0(&p::userModel);
-    sc0.init();
-    sc::event
-            e1{&sc::state::event_Initiliazed},
-            e2{&sc::state::event_Exiting};
-        sc0.dispatch(e1);
-            do {
-        sc0.dispatch(); // internal uncoditional transition blocks the external until returns true.
-        sc0.dispatch(e2); // need to test if transition from Running is possible on every iteration OR push it to event queue beforehand
-        // meaning queue isnt flushed. unconditional behaves likes uml a => b: event [condition] : actions
-        // Considering something else than scxmlcc. like scxml cat.
-    } while(sc0.model.In<sc::state_Running>());
+    p::sc0.init();
+    sc::event exit{&sc::state::event_exit};
 }
 
+void App::run()  {
+    //do {
+        p::sc0.dispatch(); // internal uncoditional transition blocks the external until returns true.
+        // need to test if transition from Running is possible on every iteration OR push it to event queue beforehand
+        // meaning queue isnt flushed. unconditional behaves likes uml a => b: event [condition] : actions
+        // Considering something else than scxmlcc. like scxml cat.;
+    //} while(!p::sc0.model.In<sc::state_Stopped>());
+
+   if (p::sc0.model.In<sc::state_Stopped>()) throw new exception();
+}
 void App::addResource(Resource r)
 {
     LOCK(p::dataMutex)
     cout << "ThreadId:" << this_thread::get_id() << endl;
-    p::data->insert(r);
+    p::data->insert(move(r));
 }
 
 void App::deleteResource(Resource r)
@@ -101,6 +85,6 @@ Resource App::getResource(ResourceKey k)
         cout << __FUNCTION__ << "found key" << endl;
         return *it;
     } else {
-        return Resource{resource_not_exsists};
+        return move(Resource{resource_not_exsists});
     }
 }

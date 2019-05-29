@@ -6,9 +6,10 @@ class App
 {
 public:
     App();
-    static void addResource(Resource r);
+    void addResource(Resource r);
     void deleteResource(Resource r);
     Resource getResource(ResourceKey k);
+    void run();
 };
 
 #endif // APP_H
